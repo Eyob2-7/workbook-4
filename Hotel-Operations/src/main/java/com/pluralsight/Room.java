@@ -1,7 +1,7 @@
 package com.pluralsight;
 
 public class Room {
-    private final boolean occupied;
+    private boolean occupied;
     private int numberOfBeds;
     private double price;
     private boolean dirty;
@@ -16,7 +16,29 @@ public class Room {
 
     // Method for room Availability
     public boolean isAvailable() {
-        return !dirty && !occupied;
+        return !this.isDirty() && !occupied;
+    }
+
+    // Method for check-in
+    public void checkIn() {
+        if (this.isAvailable()) {
+            this.occupied = true;
+            this.dirty = true;
+            System.out.println("Check-in Successful.");
+        } else {
+            System.out.println("Sorry, you Can not check-in, the room is not available.");
+        }
+    }
+
+    // Method to check out
+    public void checkOut() {
+       this.cleanRoom();
+       occupied= false;
+    }
+
+    // Method for clean room
+    public void cleanRoom() {
+        dirty= false;
     }
 
 

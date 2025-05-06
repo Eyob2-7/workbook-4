@@ -1,11 +1,14 @@
 package com.pluralsight;
 
+import java.time.LocalDateTime;
+
 public class Employee {
     private int employeeId;
     private String name;
     private String department;
     private double payRate;
     private double hoursWorked;
+    private double punchInTime;
 
     public Employee(int employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
@@ -15,10 +18,27 @@ public class Employee {
         this.hoursWorked = hoursWorked;
     }
 
+    // Punch in method
+    public void punchIn(double time){
+        this.punchInTime = time;
+        System.out.println(name +" punched in at "+ time+ punchInTime);
+    }
+
+    // Punch out method
+    public void punchOut(double time){
+        if (time > this.punchInTime){
+            double worked = time - this.punchInTime;
+            hoursWorked = this.hoursWorked + worked;
+            System.out.println(this.name + " punched out at "+ time+ " - "+ worked+ " hours added.");
+        }else{
+            System.out.println("Punch out time must be after punch-in time.");
+        }
+    }
+
     // method to return regular hours
     public double getRegularHours() {
-        if (hoursWorked <= 40) {
-            return hoursWorked;
+        if (this.hoursWorked <= 40) {
+            return this.hoursWorked;
         } else {
             return 40;
         }
@@ -26,8 +46,8 @@ public class Employee {
 
     //method to return over time hours
     public double getOverTimeHours() {
-        if (hoursWorked > 40) {
-            return hoursWorked - 40;
+        if (this.hoursWorked > 40) {
+            return this.hoursWorked - 40;
         } else {
             return 0;
         }
@@ -36,8 +56,8 @@ public class Employee {
 
     // Method to calculate total pay
     public double getTotalPay() {
-        double basePay = getRegularHours() * payRate;
-        double overTimePay = getOverTimeHours() * (1.5 * payRate);
+        double basePay = getRegularHours() * this.payRate;
+        double overTimePay = getOverTimeHours() * (1.5 * this.payRate);
         return basePay + overTimePay;
     }
 
