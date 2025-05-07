@@ -8,7 +8,7 @@ public class Employee {
     private String department;
     private double payRate;
     private double hoursWorked;
-    private double punchInTime;
+    private double startTime;
 
     public Employee(int employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
@@ -19,18 +19,39 @@ public class Employee {
     }
 
     // Punch in method
-    public void punchIn(double time){
-        this.punchInTime = time;
-        System.out.println(name +" punched in at "+ time+ punchInTime);
+    public void punchIn(double time) {
+        this.startTime = time;
+
     }
 
+    // =========== // Overloaded punchIn() with no parameters  // =========== //
+    public void punchIn() {
+        LocalDateTime now = LocalDateTime.now();
+        double time = now.getHour() + now.getMinute() / 60.0;
+        punchIn(time);
+    }
+
+
     // Punch out method
-    public void punchOut(double time){
-        if (time > this.punchInTime){
-            double worked = time - this.punchInTime;
-            hoursWorked = this.hoursWorked + worked;
-            System.out.println(this.name + " punched out at "+ time+ " - "+ worked+ " hours added.");
-        }else{
+    public void punchOut(double time) {
+        if (time >= this.startTime) {
+            double worked = time - this.startTime;
+            this.hoursWorked += worked;
+            System.out.println(this.name + " punched out at " + time + " - " + worked + " hours added.");
+        } else {
+            System.out.println("Punch out time must be after punch-in time.");
+        }
+    }
+
+    // =========== // Overloaded punchOut() with no parameters  // =========== //
+    public void punchOut() {
+        LocalDateTime now = LocalDateTime.now();
+        double time = now.getHour() + now.getMinute() / 60.0;
+        if (time >= this.startTime) {
+            double worked = time - this.startTime;
+            this.hoursWorked += worked;
+            System.out.println(this.name + " punched out at " + time + " - " + worked + " hours added.");
+        } else {
             System.out.println("Punch out time must be after punch-in time.");
         }
     }
